@@ -1,4 +1,4 @@
-function Param_Initialization(TargetNumber,HerderNumber,DwellTime,RepulMultiplier)
+function Param_Initialization(TargetNumber,HerderNumber,DwellTime,isRobustness)
 % Assign system parameters and save them on file in "Parameters/" folder
 %
 % Simulation parameters : T N dt t_search
@@ -27,6 +27,8 @@ delta_rmin = rstar + (.062 - .061539);
 
 global BrownDist BrownMag RepulMag
 
+if isRobustness == 0     RepulMultiplier = 20; end 
+
 BrownDist = makedist('Normal',0,sqrt(dt)); % Initialize the probability distribution for our random variable with mean 0 and stdev of sqrt(dt)
 BrownMag = 0.05; % default value: 0.05
 RepulMag = RepulMultiplier * BrownMag; % default value: 20*0.05
@@ -52,14 +54,18 @@ b_theta_S = 2 * zeta_theta * otheta;     % angular damping term
 % A = - 0.2; 
 % B = -0.2; 
 
-global net
+global net_novice net_expert
 % uncomment the following lines to import a tensorflow keras model 
 % modelfile = "./model/Reduced3_ExpertModel";
 % net = importKerasNetwork(modelfile);
 
 % uncomment the following lines to load the net model from a .mat file 
 load('./model/ImportedModelNovice_Red3.mat','net');     % Novice model
-% load('./model/ImportedModelExpert_Red3.mat','net');   % Expert model 
+net_novice = net; 
+clear net; 
+load('./model/ImportedModelExpert_Red3.mat','net');   % Expert model 
+net_expert = net; 
+clear net; 
 
-save(['Parameters/param_',num2str(TargetNumber),'_',num2str(RepulMultiplier),'.mat']);
+save(['Parameters/param_',num2str(TargetNumber),'T_',num2str(HerderNumber),'H.mat']);
 

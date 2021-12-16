@@ -21,10 +21,10 @@ else
             case 4
                 [rps(:,t_search), thetaps(:,t_search), Bounds(:,:,t_search), Chased(:,t_search)] = planeSearch_Peer2Peer(t, Herder, Target);
             case 5
-                [rps(:,t_search), thetaps(:,t_search),Chased(:,t_search)] = planeSearch_Deep(t,Herder,Target);
-                
+                [rps(:,t_search), thetaps(:,t_search),Chased(:,t_search)] = planeSearch_DeepNovice(t,Herder,Target);       
+             case 6
+                [rps(:,t_search), thetaps(:,t_search),Chased(:,t_search)] = planeSearch_DeepExpert(t,Herder,Target);     
         end
-        
     end
 end
 

@@ -2,7 +2,6 @@ function [rps_P, thetaps_P, Bounds, chsd] = planeSearch_Global(t, Target, Herder
 
 global Q P xstar
 
-Farthest_fromgoal = []; 
 Bounds = [];
 
 for q = 1 : Q
@@ -13,7 +12,7 @@ for q = 1 : Q
     end 
 end
 
-[Farthest_fromgoal, index_farthest] = sort(Target_norm, 'descend');
+[~, index_farthest] = sort(Target_norm, 'descend');
 
 for p = 1 : P 
     rps_P(p) = Target_norm(index_farthest(p)); 

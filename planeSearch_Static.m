@@ -2,7 +2,6 @@ function [rps_P, thetaps_P, Bounds, chsd] = planeSearch_Static(t, Target)
 
 global P Q xstar
 
-% Chased = zeros(Q,P); 
 ChasedIndex = (Q+1)*ones(Q,P); 
 
 % % get bounds 
@@ -22,7 +21,7 @@ for q = 1 : Q
     Target_angle_wrapped(q) = wrapTo2Pi(Target_angle(q));     
 end
 
-[Target_norm_sorted, index_sorted] = sort(Target_norm,'descend'); 
+[~, index_sorted] = sort(Target_norm,'descend'); 
 Target_angle_wrapped = Target_angle_wrapped(index_sorted); 
 
 for p = 1 : P

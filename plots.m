@@ -1,7 +1,7 @@
-%% just a script to plot around
+%% just a script to plot around after have loaded a trail .mat file (e.g., load('Trials\Global\trial_Global_1_7T_3H.mat'))
 TargetNumber = 7;
-RepulMultiplier = 20;
-load(['Parameters/param_',num2str(TargetNumber),'_',num2str(RepulMultiplier),'.mat']);
+HerderNumber = 3;
+load(['Parameters/param_',num2str(TargetNumber),'T_',num2str(HerderNumber),'H.mat']);
 
 setPlots;
 
@@ -17,7 +17,7 @@ opt6 = '6 - Angular and radial velocities\n';
 
 
 disp('which plot do you need?');
-letsPlot = input([opt1,opt2,opt3,opt4,opt5,opt6,opt7]);
+letsPlot = input([opt1,opt2,opt3,opt4,opt5,opt6]);
 
 switch letsPlot
     

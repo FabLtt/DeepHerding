@@ -1,20 +1,28 @@
-function Func_Simulation(TrialNumber,TargetNumber,RepulMultiplier,howSearch,~)
-% MAIN file to initialize and simulate target and herder agents
+function Func_Simulation(TrialNumber,TargetNumber,HerderNumber,howSearch,~)
+% main function to initialize and simulate target and herder agents
 
-load(['Parameters/param_',num2str(TargetNumber),'_',num2str(RepulMultiplier),'.mat']);
+load(['Parameters/param_',num2str(TargetNumber),'T_',num2str(HerderNumber),'H.mat']);
 
 Target = Target_Initialization(Q,N);
 Herder = Herder_Initialization(P,N);
 
-% set TargetType to select the type of target agents to simulate : 0 - Brownian, 1 - AAMAS, 2 - PNAS
+% set TargetType to select the type of target agents to simulate : 
+% 0 - simulate Brownian target agents, 
+% 1 - simulate target agents as used in Rigoli, Lillian M., et al. "Employing Models of Human Social Motor 
+%                                       Behavior for Artificial Agent Trainers." Proceedings of the 19th 
+%                                       International Conference on Autonomous Agents and MultiAgent Systems. 2020., 
+% 2 - simulate target agents as used in 10.1073/pnas.1813164116
 TargetType = 0;
 
 % simulation loop
 for t = 1 : N
     
     
-    % Herders
+    % Herders are driven by the simplified version of model
+    % 10.1073/pnas.1813164116, as presented in https://arxiv.org/abs/2010.00386v2
     Herder = Herder_NovelModel(t,Herder,Target, howSearch);
+    
+    % Eventually, herders can be driven by the originam model from 10.1073/pnas.1813164116
     %     Herder = Herder_CompleteModel(t,Herder,Target, howSearch);
     
     % Targets
@@ -103,9 +111,11 @@ switch howSearch
         howSearch_val = 'LeaderFollower';
     case 4  % search strategy COOPERATIVE %
         howSearch_val = 'PeerToPeer';
-    case 5  % search strategy DEEP %
-        howSearch_val = 'Deep';
+    case 5  % search strategy NOVICE INSPIRED %
+        howSearch_val = 'Novice';
+    case 6  % search strategy EXPERT INSPIRED %
+        howSearch_val = 'Expert';
 end
 
-file_nameTrial = ['Trials/',howSearch_val,'/','trial_',howSearch_val,'_',num2str(TrialNumber),'_',num2str(TargetNumber),'_',num2str(RepulMultiplier),'.mat'];
+file_nameTrial = ['Trials/',howSearch_val,'/','trial_',howSearch_val,'_',num2str(TrialNumber),'_',num2str(TargetNumber),'T_',num2str(HerderNumber),'H.mat'];
 save(file_nameTrial, 'TargetPos','HerderPos','Herder','Target');

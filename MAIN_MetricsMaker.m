@@ -1,12 +1,12 @@
 TrialNumberTot = [1 2];        % [startValue endValue]
-HowDivisionTot = [1 5];         % [Value] | [startValue endValue] (1-Gloabl 2-Static 3-LeaderFollower 4-Peer2Peer 5-Deep)
+HowDivisionTot = [1 6];         % [Value] | [startValue endValue] (1-Gloabl 2-Static 3-LeaderFollower 4-Peer2Peer 5-Novice inspired 6-Expert inspired)
 DwellTimesTot = 50;             % [Value] | [startValue endValue]
 
-RepulMultiplier = 20;
-TargetNumber = 7;
+TargetNumber = 7;   % total number of target agents
+HerderNumber = 3;   % total number of herder agents 
 
-paramTrue = 1;
-tf = 120;
+paramTrue = 1;  % 0 - set simulation parameters | 1 - read parameters from file   
+tf = 120;       % end time of the simulation by which computing metrics
 
 % get Metrics and Averages
 
@@ -14,7 +14,7 @@ if length(DwellTimesTot) == 1
    
     dwellTimeName = num2str(DwellTimesTot);
     
-    MetricsMatrix = getMetrics(TargetNumber,RepulMultiplier,TrialNumberTot,HowDivisionTot,paramTrue,tf);
+    MetricsMatrix = getMetrics(TargetNumber,HerderNumber,TrialNumberTot,HowDivisionTot,paramTrue,tf);
     
     for how = HowDivisionTot(1) : HowDivisionTot(2)
         
@@ -39,7 +39,7 @@ else
         
         dwellTimeName = num2str(DwellTimesTot(DwellTimesCont));
         
-        MetricsMatrix = getMetrics(TargetNumber,RepulMultiplier,TrialNumberTot,HowDivisionTot,paramTrue,tf);
+        MetricsMatrix = getMetrics(TargetNumber,HerderNumber,TrialNumberTot,HowDivisionTot,paramTrue,tf);
         
         for how = HowDivisionTot(1) : HowDivisionTot(2)
             
@@ -60,8 +60,6 @@ else
     
 end
 
-
-
 AveragesTaskDivisions = table(AverageMetrics_ContTime,AverageMetrics_ContRate,AverageMetrics_Spread,AverageMetrics_Distance,AverageMetrics_DistanceTravelled, AverageMetrics_FirstTime,AverageMetrics_DistanceTravelled_toFirstIn, AverageMetrics_Spread_toFirstIn, AverageMetrics_ContRate_toFirstIn,AverageMetrics_Distance_toFirstIn);
 
-save('Metrics/Averages.mat','AveragesTaskDivisions');
+save(['Metrics/Averages_',num2str(TargetNumber),'T_',num2str(HerderNumber),'H.mat'],'AveragesTaskDivisions');

@@ -1,6 +1,6 @@
-function [rps_P, thetaps_P, chsd] = planeSearch_Deep(t, Herder, Target)
+function [rps_P, thetaps_P, chsd] = planeSearch_DeepNovice(t, Herder, Target)
 
-global Q P xstar net seq_len
+global Q P xstar net_novice seq_len
 
 seq_len = 25;
 start_seq = t - seq_len;
@@ -28,18 +28,18 @@ for p = 1 : P
     end
     
     
-    [Target_sorted, index_sorted] = sort(HerderTargetDist);
-    if Q > 4 
+    [~, index_sorted] = sort(HerderTargetDist);
+    if Q > 4
         if exist('chsd','var') && chsd(end)>0
             index_sorted(index_sorted(:) == chsd(end)) = [];
         end
-    end 
+    end
     Target_id_to_chase = index_sorted(1:end);
     
     TargetPos = TargetPos_ALL(:,:,Target_id_to_chase);
     TargetVel = TargetVel_ALL(:,:,Target_id_to_chase);
     TargetVelCart = TargetVelCart_ALL(:,:,Target_id_to_chase);
-    TargetAcc = TargetAcc_ALL(:,:,Target_id_to_chase); 
+    TargetAcc = TargetAcc_ALL(:,:,Target_id_to_chase);
     
     other_p = p + 1;
     if p == P
@@ -52,15 +52,14 @@ for p = 1 : P
     OtherHerderVelCart(:,:) = Herder(other_p).y_dot(:,start_seq:end_seq);
     OtherHerderAcc(1,:) = Herder(other_p).r_ddot(:,start_seq:end_seq);
     
-%     Sequence = buildSequence_both(HerderPos, TargetPos, HerderVel, TargetVel, OtherHerderPos, OtherHerderVel);
     Sequence = buildSequence_Red3(HerderPos, TargetPos, HerderVel, TargetVel,HerderVelCart,TargetVelCart, HerderAcc, TargetAcc, OtherHerderPos, OtherHerderVel,OtherHerderVelCart,OtherHerderAcc);
-    Pred = classify(net,Sequence);
+    Pred = classify(net_novice,Sequence);
     chsd(p) = grp2idx(Pred)-1;
     
-    if chsd(p) == 0       
-        chsd(p) = index_sorted(end); % opz 2    
+    if chsd(p) == 0
+        chsd(p) = index_sorted(end); 
         X = Target(chsd(p)).x(1,end_seq) - xstar(1);
-        Y = Target(chsd(p)).x(2,end_seq) - xstar(2);       
+        Y = Target(chsd(p)).x(2,end_seq) - xstar(2);
     else
         chsd(p) = Target_id_to_chase(chsd(p));
         X = Target(chsd(p)).x(1,end_seq) - xstar(1);

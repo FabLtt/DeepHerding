@@ -13,7 +13,7 @@ else
         
         switch howSearch
             case 1
-                [rps(:,t_search), thetaps(:,t_search), Bounds(:,:,t_search), Chased(:,t_search)] = planeSearch_Global(t, Target);
+                [rps(:,t_search), thetaps(:,t_search), Bounds(:,:,t_search), Chased(:,t_search)] = planeSearch_Global(t, Target,Herder);
             case 2
                 [rps(:,t_search), thetaps(:,t_search), Bounds(:,:,t_search), Chased(:,t_search)] = planeSearch_Static(t,Target);
             case 3
@@ -21,11 +21,10 @@ else
             case 4
                 [rps(:,t_search), thetaps(:,t_search), Bounds(:,:,t_search), Chased(:,t_search)] = planeSearch_Peer2Peer(t, Herder, Target);
             case 5
-                [rps(:,t_search), thetaps(:,t_search),Chased(:,t_search)] = planeSearch_Deep(t,Herder,Target);
-                
-        end
-        
-        
+                [rps(:,t_search), thetaps(:,t_search),Chased(:,t_search)] = planeSearch_DeepNovice(t,Herder,Target);       
+             case 6
+                [rps(:,t_search), thetaps(:,t_search),Chased(:,t_search)] = planeSearch_DeepExpert(t,Herder,Target);     
+        end 
     end
 end
 
@@ -104,7 +103,7 @@ end
 
 function [theta_ddot, theta_dot] = HerderDynamics_CompleteModel_Angular(theta_vel, T, R_VdP, HKB, b_theta)
 
-global dt b_theta_S
+global dt
 
 theta_dot = theta_vel;
 theta_ddot = - (b_theta * theta_vel + T + R_VdP) + HKB + rand(1) * dt;
@@ -153,9 +152,9 @@ end
 
 function b_theta_dot = AngularDamping(b_theta, rps)
 
-global delta alfa rstar delta_rmin
+global delta rstar delta_rmin
 
-b_theta_dot = - delta * (b_theta - (rps - (rstar + delta_rmin))); % - alfa * (rps - (rstar + delta_rmin)));
+b_theta_dot = - delta * (b_theta - (rps - (rstar + delta_rmin))); 
 
 end
 

@@ -14,8 +14,6 @@ else
     N_start = N * (T - T_interval) / T + 1;
 end
 
-Q = size(TargetPosX,1);
-
 if fulltrial == 1
     N_final = N;
 else
@@ -29,9 +27,7 @@ for t = N_start : N_final
     
     AvgDistance_atTimet(t) = norm(mean([TargetPosX_sum(t); TargetPosY_sum(t)]) - xstar);
     
-    %mean(Target_norm_abs(:,t)) - xstar;
-    
 end
 
 AvgDistance = mean(AvgDistance_atTimet);
-StdErrorDistance = std(AvgDistance_atTimet) / sqrt(N_final - N_start);
+% StdErrorDistance = std(AvgDistance_atTimet) / sqrt(N_final - N_start);

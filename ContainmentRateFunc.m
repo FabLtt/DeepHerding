@@ -1,14 +1,11 @@
 function [containmentRate, escapingRate] = ContainmentRateFunc(Target_norm,steadystate,T_interval, fulltrial)
 
-% Targetnorm = norm(Target(q).x(:,t) - x_goal)      if x_goal = x*
-% Targetnorm = norm(Target(q).x(:,t))/norm(Target(Q+1).gcm(:,t))        if x_goal = x_gcm
-
 % steadystate = 0   if containment rate over full trial
 % steadystate = 1   if containment rate over last T_interval second of trial
 
-global N T rstar dt
+global N T rstar 
 
-rstar = 1.05;
+rstar = 1.05; % to slightly relax the requirement of being in the containment region
 
 if steadystate == 0
     N_start = 1;

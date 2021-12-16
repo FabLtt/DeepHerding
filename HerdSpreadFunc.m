@@ -27,12 +27,12 @@ end
 
 for t = N_start : N_final
     
-    [ConvexHull,SpreadOfTargetsTrend(t)] = convhull(TargetPosX(:,t), TargetPosY(:,t), 'simplify', true);  
+    [~,SpreadOfTargetsTrend(t)] = convhull(TargetPosX(:,t), TargetPosY(:,t), 'simplify', true);  
     
 end
 
 AvgSpreadOfTargets = mean(SpreadOfTargetsTrend); 
-StdErrorSpreadOfTargets = std(SpreadOfTargetsTrend) / sqrt(N_final); 
+% StdErrorSpreadOfTargets = std(SpreadOfTargetsTrend) / sqrt(N_final); 
 
 
 

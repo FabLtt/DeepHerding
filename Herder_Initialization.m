@@ -1,5 +1,4 @@
 function Herder = Herder_Initialization(HerderNumber, TotalTimesteps)
-
 % Initialize an array of "HerderNumber" struct of fields
 % and assign initial polar (and cartesian) initial around a fixed radial distance from the centre of the environment
 
@@ -25,7 +24,6 @@ for p = 1 : HerderNumber
 end
 
 Herder(HerderNumber+1).b_theta = zeros(2,TotalTimesteps); 
-
 
 % initial "random" position around a fixed radial distance from the centre of the environment
 
